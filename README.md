@@ -40,7 +40,7 @@ compiler.c: Implements the compiler, calling program() from parser.c and then fi
 How to interpret the tree as printed: To print the tree I start at the very top of the tree (the program node) and print children left to right. If a node has an inherent value (eg. if it is an identifier node or has a declaration type) this value will be printed with the node. I added statements at the beginning and end of things like function and statement bodies to make the output a little easier to follow.
 
 How to compile: 
->make
+/make
 then...
 To just compile:
 >./compile <filename>
