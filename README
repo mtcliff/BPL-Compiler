@@ -2,6 +2,8 @@ Michael Clifford
 cs331
 5/4/16
 
+Info on BPL programming  language here: http://www.cs.oberlin.edu/~bob/cs331/The%20BPL%20Programming%20Language.pdf
+
 token.h: Defines token struct (which consists of int kind, string value and
 int line number) and declares getNextToken() along with three helper functions:
 iskey(), key_kind(), and spec_kind().
