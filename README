@@ -1,0 +1,59 @@
+Michael Clifford
+cs331
+5/4/16
+
+token.h: Defines token struct (which consists of int kind, string value and
+int line number) and declares getNextToken() along with three helper functions:
+iskey(), key_kind(), and spec_kind().
+
+token.c: Implements getNextToken(). To do this I used the DFA structure that 
+was sampled in class using java, but extended to cover special symbols,
+keywords, and strings. It returns the token struct that it finds.
+
+scanner.c: Implements a scanner using the getNextToken() function. The main 
+function loops over the entire file calling getNextToken() (which returns the
+next token) and printing the info for that token. 
+
+tree.h: Defines the parser node struct as well as symbol struct and various associated functions. It also declares the symbols glob_head, loc_head, global, and local, which point to the linked lists containing local and global declarations.
+
+tree.c: Implements functions in tree.h : (1) make_node(), which takes in the kind, name, and line number of a parse tree node, (2) make symbol, which creates a declaration symbol using the declaration node struct, (3) print_tree(), which prints a tree starting at the node passed to it, (4) find_dec(), which takes in a expression node and finds its declaration, (5) print_loc and print_glob() which print the linked lists containing local decs and global decs, respectively, (6) print_exp, print_fact, and print_pre, which print print info when expressions are assigned type, and (7) param_type, which takes in a param node and returns its type.
+
+parser.h: Declares functions used in parser
+
+parser.c: Implements a recursive descent parser for c. Uses functions based on grammar symbols to create nodes (starting at program()). There is essentially one kind of node (the struct). At first a node will only have a name, kind, and line number (every other attribute is set to NULL/0), but attributes are added based on what the node represents (i.e. children, next nodes, type, etc. - see tree.h for the full list). After the tree is built print_tree is called on the program node.
+
+type_checker.h: Declares functions used in type checker
+
+type_checker.c: Implements a type_checker. Does a top-down pass using findRef() to identify all declarations and variable references, then does a bottom up pass with typeCheck() to assign types to all expressions.
+
+code_help.h: Declares functions and global variables used in code_help.c.
+
+code_help.c: Implements various functions to format and print assembly code.
+
+code_gen.h: Declares functions and global variables used in code_gen.c.
+	    
+code_gen.c: Implments code generation using genCode(), genCodeFun() (for functions), genCodeStmt(), and genCodeExp(). Also implements functions needed to identify strings used in the bpl code and create labels for them in the header of the assembly code. Outputs assembly code to a file named code.s.
+
+compiler.c: Implements the compiler, calling program() from parser.c and then findRef() and typeCheck() from the type_checker.c, followed by genCode() from code_gen.c. Finally it frees the memory allocated in the previous parts.
+
+How to interpret the tree as printed: To print the tree I start at the very top of the tree (the program node) and print children left to right. If a node has an inherent value (eg. if it is an identifier node or has a declaration type) this value will be printed with the node. I added statements at the beginning and end of things like function and statement bodies to make the output a little easier to follow.
+
+How to compile: 
+>make
+then...
+To just compile:
+>./compile <filename>
+To see the parse tree:
+>./compile <filename> p
+To see debugging info from type checker:
+>./compile <filename> db
+To see the parse tree and debugging info:
+>./compile <filename> dbp
+
+To run the assembly code:
+>make run
+>./run
+
+The assembly code will be contained in a file called code.s
+
+I affirm that I have adhered to the Honor Code in this assignment.
